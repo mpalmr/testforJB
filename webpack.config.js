@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
 const Clean = require('clean-webpack-plugin');
 const Html = require('html-webpack-plugin');
 const pkg = require('./package.json');
@@ -8,13 +10,9 @@ const dir = {
   dist: path.resolve('dist'),
 };
 
-module.exports = {
+const base = {
   context: dir.src,
   entry: 'index.js',
-  output: {
-    path: dir.dist,
-    filename: `${pkg.name}.js`,
-  },
   resolve: {
     modules: [dir.src, 'node_modules'],
   },
@@ -27,8 +25,26 @@ module.exports = {
       },
     }],
   },
+};
+
+const dev = {
+  devtool: 'eval-source-map',
+  plugins: [new Html({ template: path.resolve('devTemplate.html') })],
+};
+
+const prod = {
+  output: {
+    path: dir.dist,
+    filename: `${pkg.name}.js`,
+  },
   plugins: [
     new Clean(path.resolve(dir.dist, '**', '*'), { root: dir.dist }),
-    new Html({ template: path.resolve('devTemplate.html') }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: { except: ['webpackJsonp'] },
+    }),
   ],
 };
+
+const environments = { dev, prod };
+
+module.exports = env => merge(base, environments[env]);
