@@ -1,5 +1,6 @@
 const path = require('path');
 const Clean = require('clean-webpack-plugin');
+const Html = require('html-webpack-plugin');
 const pkg = require('./package.json');
 
 const dir = {
@@ -28,5 +29,9 @@ module.exports = {
   },
   plugins: [
     new Clean(path.resolve(dir.dist, '**', '*'), { root: dir.dist }),
+    new Html({
+      title: `${pkg.name} &bull; Dev`,
+      template: path.resolve('devTemplate.html'),
+    }),
   ],
 };
