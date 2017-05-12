@@ -1,4 +1,5 @@
 const path = require('path');
+const pkg = require('./package.json');
 
 const dir = {
   src: path.resolve('src'),
@@ -10,7 +11,7 @@ module.exports = {
   entry: 'index.js',
   output: {
     path: dir.dist,
-    filename: 'main.js',
+    filename: `${pkg.name}.js`,
   },
   resolve: {
     modules: [dir.src, 'node_modules'],
