@@ -29,9 +29,6 @@ module.exports = {
   },
   plugins: [
     new Clean(path.resolve(dir.dist, '**', '*'), { root: dir.dist }),
-    new Html({
-      title: `${pkg.name} &bull; Dev`,
-      template: path.resolve('devTemplate.html'),
-    }),
+    new Html({ template: path.resolve('devTemplate.html') }),
   ],
 };
