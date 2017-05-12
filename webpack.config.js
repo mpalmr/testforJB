@@ -43,7 +43,7 @@ const base = {
     styleBundle,
     new webpack.LoaderOptionsPlugin({
       options: {
-        postcss: () => [autoprefixer(pkg.browserslist)],
+        postcss: () => [autoprefixer()],
       },
     }),
   ],
